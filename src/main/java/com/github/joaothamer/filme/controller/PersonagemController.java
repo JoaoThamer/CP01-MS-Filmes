@@ -1,7 +1,7 @@
 package com.github.joaothamer.filme.controller;
 
-import com.github.joaothamer.filme.model.Filme;
-import com.github.joaothamer.filme.repository.FilmeRepository;
+import com.github.joaothamer.filme.model.Personagem;
+import com.github.joaothamer.filme.repository.PersonagemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,20 +11,20 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/filmes")
-public class FilmeController {
+@RequestMapping("/personagem")
+public class PersonagemController {
 
     @Autowired
-    private FilmeRepository repository;
+    private PersonagemRepository repository;
 
     @PostMapping
-    public ResponseEntity<Filme> create (@RequestBody Filme filme){
+    public ResponseEntity<Personagem> create (@RequestBody Personagem personagem){
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(filme));
+        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(personagem));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Filme> findById(@PathVariable Long id){
+    public ResponseEntity<Personagem> findById(@PathVariable Long id){
 
         return repository.findById(id)
                 .map(ResponseEntity::ok)
@@ -32,20 +32,20 @@ public class FilmeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Filme>> findAll(){
+    public ResponseEntity<List<Personagem>> findAll(){
 
         return ResponseEntity.ok(repository.findAll());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Filme> update(@PathVariable Long id, @RequestBody Filme filme){
+    public ResponseEntity<Personagem> update(@PathVariable Long id, @RequestBody Personagem personagem){
 
-        Optional<Filme> optFilme = repository.findById(id);
+        Optional<Personagem> optPersonagem = repository.findById(id);
 
-        if (optFilme.isPresent()){
-            filme.setId(id);
-            Filme filmeAlterado = repository.save(filme);
-            return ResponseEntity.ok(filmeAlterado);
+        if (optPersonagem.isPresent()){
+            personagem.setId(id);
+            Personagem personagemAlterado = repository.save(personagem);
+            return ResponseEntity.ok(personagemAlterado);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -58,4 +58,5 @@ public class FilmeController {
 
         return ResponseEntity.noContent().build();
     }
+
 }
